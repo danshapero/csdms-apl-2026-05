@@ -41,7 +41,7 @@
 
 body {
     background: url("https://icepack.github.io/images/logo.svg");
-    background-size: 10vh;
+    background-size: 40vh;
     background-position: right 2ch bottom 3ch;
     background-repeat: no-repeat;
     font-family: var(--hogent-font-family);

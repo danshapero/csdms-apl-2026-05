@@ -36,7 +36,7 @@ I solve differential equations for money
 
 ### Broad strokes
 
-* You can think of glaciers as a **thin film** of **viscous** fluid, flowing by **gravity**.
+* You can think of glaciers as a **thin film** of **viscous** fluid, flowing under **gravity**.
 * Other viscous gravity currents in the earth sciences: rainfall runoff, lava flows, debris flows.
 * Ice is unusual because of **rheology**, **bed sliding**, and **iceberg calving**.
 
@@ -54,6 +54,14 @@ I solve differential equations for money
 
 **Goal**: make simulating glaciers easier and more interactive.
 
+-v-
+
+<center><img src="https://www.firedrakeproject.org/_static/banner.png"></center>
+
+Built on Firedrake, a Python package for solving PDEs.
+
+Specify the PDE using a *domain-specific language*.
+
 
 ---
 
@@ -61,7 +69,9 @@ I solve differential equations for money
 
 -v-
 
-show velocity map of Antarctica
+<small>InSAR-based velocity map of Antarctica from NSIDC</small>
+
+<center><img src=https://nsidc.org/sites/default/files/images/satellite-aiv-velocity-magnitude.png width="60%"></center>
 
 -v-
 
@@ -143,11 +153,11 @@ Some of the best field evidence we have for the Glen flow law.
 
 ### Boundary conditions
 
-* Notation: $\nu$ = unit outward-pointing normal vector
+* Notation: $\parallel$ = parallel, $\perp$ = perpendicular
 * At the surface, stress is zero:
-$$(\tau - pI)\cdot\nu = 0 \quad \text{at } z = z\_s$$
+$$(\tau - pI)\_\parallel = 0 \quad \text{at } z = z\_s$$
 * At the base, velocity is equal to the melt rate:
-$$u\cdot\nu = \dot m \quad \text{at } z = z\_b$$
+$$u\_\parallel = \dot m \quad \text{at } z = z\_b$$
 **What about friction?**
 
 -v-
@@ -155,20 +165,47 @@ $$u\cdot\nu = \dot m \quad \text{at } z = z\_b$$
 ### Sliding law
 
 * Friction is (maybe?) a power law:
-$$(I - \nu\otimes\nu)u = -K|\tau\_b|^{m - 1}\tau\_b$$
+$$u\_\perp = -K|\tau\_b|^{m - 1}\tau\_b$$
 * The basal BC type depends on the direction!
 * Missing pieces: hydrology, geology
 
 -v-
 
-figure showing chatter marks or lineations
+### Sliding law
+
+<center><img src="https://www.antarcticglaciers.org/wp-content/uploads/2019/09/Dubawnt-Lake-MSGLs-1024x622.png" width="65%"></center>
+
+<small>
+
+From Stokes and Clark (2003), *The Dubawnt Lake palaeo-ice stream: evidence for dynamic ice sheet behavior on the Canadian shield*
+
+</small>
+
+-v-
+
+### Summary
+
+* Momentum balance is:
+  - conservation law
+  - flow law${}^{-1}$ (stress $\sim$ strain rate${}^{1/n}$)
+  - sliding law${}^{-1}$ (drag $\sim$ speed${}^{1/m}$)
+  - fixed normal velocity at the base
+  - no stress at the surface
+* Throw it all at a finite element solver and pray, right?
+
+-v-
+
+### Minimization principle
+
+* The Stokes problem can also be derived through minimizing the *free energy dissipation rate*.
+* Minimization principles are *awesome* for numerics.
 
 -v-
 
 ### Minimization principle
 
 $$\begin{align\*}
-L(u, p) & = \int\_\Omega\left(\frac{2n}{n + 1}A^{-\frac{1}{n}}|\dot\varepsilon|^{\frac{1}{n} + 1} - p\nabla\cdot u - \rho g\cdot u\right)\mathrm dx \\\\
+\dot F(u, p) & = \int\_\Omega\left(\frac{2n}{n + 1}A^{-\frac{1}{n}}|\dot\varepsilon|^{\frac{1}{n} + 1} - p\nabla\cdot u - \rho g\cdot u\right)\mathrm dx \\\\
 & \qquad\qquad + \int\_\Gamma\frac{m}{m + 1}K^{-\frac{1}{m}}|u\_\perp|^{\frac{1}{m} + 1}\mathrm d\gamma
 \end{align\*}$$
 
@@ -244,7 +281,7 @@ $$\underbrace{\nabla\cdot hM}\_{\text{viscosity}} + \underbrace{\tau\_b}\_{\text
 
 -v-
 
-show velocity map of Antarctica, draw where SIA / SSA are good
+<center><img src=https://nsidc.org/sites/default/files/images/satellite-aiv-velocity-magnitude.png width="60%"></center>
 
 -v-
 
@@ -252,9 +289,20 @@ show some result obtained with SSA
 
 -v-
 
-### Summary
+### Approximations
 
-show the diagram
+<center>
+<div class="mermaid">
+%%{init: {
+    'theme': 'light'
+}%%
+flowchart TD
+    A[Stokes] -- "thin film" --> B[First-order];
+    B -- "vertical shear" --> C[SIA];
+    B -- "plug flow" --> D[SSA];
+
+</div>
+</center>
 
 
 
@@ -272,9 +320,36 @@ show the diagram
 
 ### The dilemma
 
-* SIA can deal with moving termini, SSA can't.
-* SSA can capture glacier velocity, SIA can't.
+<div class="multicolumn">
+
+<div>
+
+* SIA can move termini, SSA can't.
+* SSA can capture velocity, SIA can't.
 * **Can we obtain the best of both?**
+
+</div>
+
+<div>
+
+<center>
+<div class="mermaid">
+%%{init: {
+    'theme': 'light'
+}%%
+flowchart TD
+    A[Stokes] -- "thin film" --> B[First-order];
+    B -- "vertical shear" --> C[SIA];
+    B -- "plug flow" --> D[SSA];
+    C --> E[?];
+    D --> E;
+
+</div>
+</center>
+
+</div>
+
+</div>
 
 -v-
 
@@ -292,9 +367,9 @@ show the diagram
 ### Why is this a problem?
 
 * The thing we want to minimize:
-$$J(u) = \int_\Omega\left(\ldots h\cdot |\dot\varepsilon|^{4/3}\ldots\right)\mathrm dx$$
+$$\dot F = \int_\Omega\left(\ldots h\cdot |\dot\varepsilon|^{4/3}\ldots\right)\mathrm dx$$
 * When $h \to 0$, $\dot\varepsilon \to 0$ too.
-* So the curvature of $J$ looks like $0 \times \infty$!
+* So the curvature looks like $0 \times \infty$!
 
 -v-
 
@@ -318,22 +393,40 @@ Find a \_\_\_ that minimizes the elastic energy.
 
 -v-
 
-### The dual of SSA
+### The dual form of Stokes
 
 $$\begin{align\*}
-& L = \int\_\Omega\Bigg\\{\frac{2}{n + 1}hA|M|\_{\mathscr A}^{n + 1} + \frac{1}{m + 1}K|\tau|^{m + 1}  \\\\
-& \qquad\qquad\qquad - h M :\dot\varepsilon + \tau\cdot u - \rho gh\nabla s\cdot u \Bigg\\}\mathrm dx
+& \dot F = \int\_\Omega\left\\{\frac{2}{n + 1}A|\tau|^{n + 1} - \tau : \dot\varepsilon + p\nabla\cdot u + \rho g\cdot u\right\\}\mathrm dx  \\\\
+& \qquad\qquad + \int\_\Gamma\left\\{\frac{1}{m + 1}K|\tau_\perp|^{m + 1} + \tau\_\perp\cdot u\_\perp\right\\}\mathrm d\gamma
 \end{align\*}$$
+
+-v-
+
+### The dual form of Stokes
+
+* Strain rate${}^{4/3}$ becomes stress${}^4$ -- no more cusp!
+* Add terms to get composite flow / sliding laws.
+* **The dual form of SSA is solvable at $h = 0$.**
 
 -v-
 
 ### Larsen C simulation
 
+<center><iframe width="600" height="350" data-src="https://www.youtube.com/embed/qq6lw7D9NR0?rel=0" frameborder="0" allowfullscreen></iframe></center>
+
+<small>
+
+From Shapero and de Diego (2025), *Numerical simulation of glacier terminus evolution using the dual action principle for momentum balance*
+
+</small>
+
 -v-
 
 ### Emmons Glacier
 
+<center><iframe width="600" height="350" data-src="https://www.youtube.com/embed/RZO1fnDV3-w?rel=0" allowfullscreen></iframe></center>
 
+<small>By my student Jon Maurer</small>
 
 ---
 
@@ -376,6 +469,34 @@ show a drawing to illustrate
 
 ### Terrain-following coordinates
 
-* **The problem**: if we discretize $h$, then $J$ jumps across cell boundaries.
+* **The problem**: if we discretize $h$ with finite elements, then $J$ jumps across facets.
 * But it lives under a derivative:
 $$\nabla\_x u\_x = \nabla\_\xi(Ju\_\xi)J^{-1}!$$
+
+
+
+---
+
+### Conclusion
+
+-v-
+
+### Future work
+
+* **Firn**: densification of snow into ice
+* **Heat flow**: phase change
+* **Fabric**: crystal anisotropy and mechanics
+* **Damage mechanics**: try new calving laws
+* **Inverse problems**: estimating thickness, friction, viscosity from remote sensing data
+
+-v-
+
+### Conclusion
+
+I will solve differential equations for money
+
+<center>
+
+**shapero@uw.edu**
+
+</center>

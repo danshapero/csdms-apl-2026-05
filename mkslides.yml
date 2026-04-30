@@ -4,3 +4,7 @@ slides:
   separator_vertical: ^\s*-v-\s*$
   theme: slides.css
   highlight_theme: nord
+plugins:
+  - name: RevealMermaid
+    extra_javascript:
+      - https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin/plugin/mermaid/mermaid.min.js
