@@ -237,36 +237,10 @@ show a simulation of a synthetic case with SIA
 
 ### SSA
 
-* When we go to 1st-order model, the natural choice is to work with the *membrane stress tensor*
-$$M = \left[\begin{matrix}\tau\_{xx} & \tau\_{xy} \\\\ \tau\_{yx} & \tau\_{yy}\end{matrix}\right] + (\tau\_{xx} + \tau\_{yy})\left[\begin{matrix} 1 & 0 \\\\ 0 & 1\end{matrix}\right]$$
-* This is what's left over when we eliminate the pressure and normal stress.
-
--v-
-
-### SSA
-
-* The constitutive relation now looks like
-$$M = 2\mu\left\\{\dot\varepsilon + \text{tr}(\dot\varepsilon)I\right\\}.$$
-* We can also write this as
-$$M = 2\mu\mathscr C\dot\varepsilon$$
-where $\mathscr C$ is some funny rank-4 tensor.
-
--v-
-
-### SSA
-
-* We get a conservation law for membrane stress:
+* A conservation law for *membrane stress* $M$:
 $$\underbrace{\nabla\cdot hM}\_{\text{viscosity}} + \underbrace{\tau\_b}\_{\text{friction}} - \underbrace{\rho gh\nabla s}\_{\text{gravity}} = 0$$
 * Much easier to solve than Stokes or 1st-order!
-
--v-
-
-### Minimization principle for SSA
-
-$$\begin{align\*}
-& J(u) = \int\_\Omega\Bigg(\frac{2n}{n + 1}hA^{-\frac{1}{n}}|\dot\varepsilon|\_{\mathscr C}^{\frac{1}{n} + 1} \\\\
-& \qquad\qquad\qquad + \frac{m}{m + 1}K^{-\frac{1}{m}}|u|^{\frac{1}{m} + 1} + \rho gh\nabla s\cdot u\Bigg)\mathrm dx
-\end{align\*}$$
+* Also has a minimization principle.
 
 -v-
 
