@@ -2,5 +2,5 @@ index:
   title: Data assimilation with dual SSA
 slides:
   separator_vertical: ^\s*-v-\s*$
-  theme: simple
+  theme: slides.css
   highlight_theme: nord
