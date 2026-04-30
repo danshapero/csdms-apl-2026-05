@@ -12,15 +12,17 @@ Daniel Shapero, shapero@uw.edu
 
 ### Overview
 
+* Introduction and how I got here
 * Glacier flow, in broad strokes
 * Terminus advance and retreat with duality
 * Stokes flow in terrain-following coordinates
 
 
-
 ---
 
-### Glacier flow
+### Introduction
+
+I solve differential equations for money
 
 -v-
 
@@ -37,6 +39,25 @@ Daniel Shapero, shapero@uw.edu
 * You can think of glaciers as a **thin film** of **viscous** fluid, flowing by **gravity**.
 * Other viscous gravity currents in the earth sciences: rainfall runoff, lava flows, debris flows.
 * Ice is unusual because of **rheology**, **bed sliding**, and **iceberg calving**.
+
+-v-
+
+### Some history
+
+* I started an applied math PhD at UW in 2010.
+* My degree prepared me to solve PDEs real fast.
+* **Physical scientists are not limited by speed first.**
+
+-v-
+
+<img src="https://icepack.github.io/images/logo.svg">
+
+**Goal**: make simulating glaciers easier and more interactive.
+
+
+---
+
+### Glacier flow
 
 -v-
 
@@ -90,16 +111,53 @@ where $n$ is somewhere between 3 and 4.
 
 -v-
 
-figure showing Raymond arches
+### Raymond arches
+
+<center><img src="raymond-1983.png" width="60%"></center>
+
+Simulated streamlines of flow near divide of Devon Island Ice Cap from Raymond (1983), *Deformation in the vicinity of ice divides*.
 
 -v-
 
-### The sliding law
+### Raymond arches
 
-* Ice slides over its bed.
-Friction is also a power law:
-$$u = -K|\tau\_b|^{m - 1}\tau\_b$$
-* Missing pieces: dependence on bedrock geology and hydrology
+<div class="multicolumn">
+
+<div>
+
+<center><img src="vaughan-1999.png" width="60%"></center>
+
+</div>
+
+<div>
+
+Radargram from Vaughan et al. (1999), *Distortion of isochronous layers revealed by ground-penetrating radar*.
+
+Some of the best field evidence we have for the Glen flow law.
+
+</div>
+
+</div>
+
+-v-
+
+### Boundary conditions
+
+* Notation: $\nu$ = unit outward-pointing normal vector
+* At the surface, stress is zero:
+$$(\tau - pI)\cdot\nu = 0 \quad \text{at } z = z\_s$$
+* At the base, velocity is equal to the melt rate:
+$$u\cdot\nu = \dot m \quad \text{at } z = z\_b$$
+**What about friction?**
+
+-v-
+
+### Sliding law
+
+* Friction is (maybe?) a power law:
+$$(I - \nu\otimes\nu)u = -K|\tau\_b|^{m - 1}\tau\_b$$
+* The basal BC type depends on the direction!
+* Missing pieces: hydrology, geology
 
 -v-
 
@@ -109,11 +167,9 @@ figure showing chatter marks or lineations
 
 ### Minimization principle
 
-$\cdot$
-
 $$\begin{align\*}
 L(u, p) & = \int\_\Omega\left(\frac{2n}{n + 1}A^{-\frac{1}{n}}|\dot\varepsilon|^{\frac{1}{n} + 1} - p\nabla\cdot u - \rho g\cdot u\right)\mathrm dx \\\\
-& \qquad\qquad + \int\_\Gamma\frac{m}{m + 1}K^{-\frac{1}{m}}|u|^{\frac{1}{m} + 1}\mathrm d\gamma
+& \qquad\qquad + \int\_\Gamma\frac{m}{m + 1}K^{-\frac{1}{m}}|u\_\perp|^{\frac{1}{m} + 1}\mathrm d\gamma
 \end{align\*}$$
 
 
