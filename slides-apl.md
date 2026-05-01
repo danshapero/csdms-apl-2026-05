@@ -165,7 +165,7 @@ Some of the best field evidence we have for the Glen flow law.
 
 * Notation: $\parallel$ = parallel, $\perp$ = perpendicular
 * At the surface, stress is zero:
-$$(\tau - pI)\_\parallel = 0 \quad \text{at } z = z\_s$$
+$$(\tau - pI)\_\perp = 0 \quad \text{at } z = z\_s$$
 * At the base, velocity is equal to the melt rate:
 $$u\_\parallel = \dot m \quad \text{at } z = z\_b$$
 **What about friction?**
@@ -462,18 +462,18 @@ $$\mathrm dz \mapsto h\\,\mathrm d\zeta$$
 
 -v-
 
+<center><img src="greve-tfc-figure.png"></center>
+
+From ch. 5 of Greve and Blatter (2009), *Dynamics of ice sheets and glaciers*.
+
+-v-
+
 ### Terrain-following coordinates
 
 * Taking a derivative w.r.t. $x$ with $z$ fixed is not the same as with $\zeta$ fixed!
 * Let $J = \mathrm dx/\mathrm d\xi$; a few things change:
 $$u\_x = J\cdot u\_\xi$$
 $$\nabla\_x\phi = \nabla\_\xi\phi\cdot J^{-1}$$
-
--v-
-
-### Terrain-following coordinates
-
-show a drawing to illustrate
 
 -v-
 
