@@ -54,6 +54,18 @@ Daniel Shapero, shapero@uw.edu
 
 -v-
 
+### Example: Joughin et al. (2021)
+
+<center><img src="joughin2021-fig1.png" width="75%"></center>
+
+-v-
+
+### Example: Joughin et al. (2021)
+
+<center><img src="joughin2021-fig2.png" width="75%"></center>
+
+-v-
+
 <center><img src="https://www.firedrakeproject.org/_static/banner.png"></center>
 
 Built on Firedrake, a Python package for solving PDEs.
