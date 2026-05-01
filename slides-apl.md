@@ -233,13 +233,10 @@ $$\begin{align\*}
 * Simplifies the $z$-component of the Stokes eqns:
 $$\bcancel{\cancel{\partial\_x\tau\_{zx}}} + \bcancel{\cancel{\partial\_y\tau\_{zy}}} + \partial\_z\left(\tau\_{zz} - p - \rho g (s - z)\right) = 0$$
 $\Rightarrow$ we can eliminate the pressure.
+* This gives the *first-order* equations.
 
 -v-
 
-### The first-order equations
-
-* We get a system of equations for just the horizontal velocity components $u$, $v$ in 3D.
-* These are called the *first-order* equations.
 * Q: Can we simplify out the $z$-dimension?
 * A: **Yes, in two different ways!**
 
@@ -247,9 +244,8 @@ $\Rightarrow$ we can eliminate the pressure.
 
 ### The shallow ice approximation
 
-* Assumption: ice is nearly frozen to the bed and the vertical shear modes $\dot\varepsilon\_{xz}$, $\dot\varepsilon\_{yz}$ are dominant.
-* Consequence: **depth-averaged velocity is a function of the local thickness and surface slope**.
-
+* Assumption: vertical shear $\dot\varepsilon\_{xz}$, $\dot\varepsilon\_{yz}$ dominates.
+* Consequence:
 $$\begin{align\*}
 \text{driving stress}: \quad \tau\_d & = -\rho gh\nabla s \\\\
 \text{velocity}: \quad \bar u & = \frac{2hA}{n + 2}|\tau\_d|^{n - 1}\tau\_d
@@ -260,7 +256,7 @@ $$\begin{align\*}
 ### The shallow ice approximation
 
 * The good:
-  - Simple to code.
+  - Simple to code: everyone does it!
   - **The model still works fine even when $h = 0$.**
 * The bad:
   - Can't handle floating ice.
@@ -275,7 +271,7 @@ show a simulation of a synthetic case with SIA
 
 ### The shallow stream approximation
 
-* Assumption: ice flow is by horizontal extension; $\dot\varepsilon\_{xx}$, $\dot\varepsilon\_{yy}$, $\dot\varepsilon\_{xy}$ are dominant.
+* Assumption: horizontal extension $\dot\varepsilon\_{xx}$, $\dot\varepsilon\_{yy}$, $\dot\varepsilon\_{xy}$ dominates.
 * Depth-average velocity now solves a PDE.
 * Can handle floating ice + fast flow.
 * **The model doesn't work when $h = 0$.**
@@ -363,17 +359,6 @@ flowchart TD
 
 -v-
 
-### Terminus advance/retreat
-
-- Terminus evolution = a free boundary problem!
-- **Problem**: when $h = 0$, bad things happen.
-- **Solutions**:
-  - low-order FV discretization (BISICLES)
-  - level-set methods (ISSM)
-  - remeshing (Elmer/ICE)
-
--v-
-
 ### Why is this a problem?
 
 * The thing we want to minimize:
@@ -383,27 +368,55 @@ $$\dot F = \int_\Omega\left(\ldots h\cdot |\dot\varepsilon|^{4/3}\ldots\right)\m
 
 -v-
 
-### Convex duality
+### What is to be done?
 
-* Both Stokes and SSA have minimization principles.
-* **Every convex minimization problem has a twin.**
-* Solving the primal problem is an upper bound for the dual and vice versa.
+<center>
+
+**Every convex minimization problem has a *dual*.**
+
+</center>
 
 -v-
 
 ### Convex duality
 
 * Example: linear elasticity.
-Find a \_\_\_ that minimizes the elastic energy.
-  - primal problem: displacement
-  - dual problem: stress tensor
-* Why should we care?
-  - More accurate approximation of stress
-  - **Inverts all constitutive relations**
+  - Find a displacement that minimizes energy.
+  - Find a stress in force balance.
+* Example: Stokes flow
+  - Find a velocity that minimizes free energy rate.
+  - Find a stress in force balance.
 
 -v-
 
-### The dual form of Stokes
+### Example: linear elasticity
+
+The primal form:
+$$E(u) = \int\_\Omega\left(\frac{1}{2}\mathscr C \varepsilon(u): \varepsilon(u) - f\cdot u\right)\mathrm dx$$
+
+The dual form:
+$$E(u, \sigma) = \int\_\Omega\left(\frac{1}{2}\mathscr C^{-1}\sigma : \sigma + u\cdot(\nabla\sigma + f)\right)\mathrm dx$$
+
+-v-
+
+### Example: linear Stokes flow
+
+The primal form:
+$$L(u, p) = \int\_\Omega\left(\mu\dot\varepsilon(u):\dot\varepsilon(u) - p\nabla\cdot u - f\cdot u\right)\mathrm dx$$
+
+The dual form:
+$$L(u, p, \tau) = \int\_\Omega\left(\frac{1}{4\mu}|\tau|^2 - \tau:\dot\varepsilon(u) + p\nabla\cdot u + f\cdot u\right)\mathrm dx$$
+
+-v-
+
+### Duality: why you should care
+
+* More accurate approximation of stress
+* **Inverts all constitutive relations**
+
+-v-
+
+### The dual form of nonlinear Stokes
 
 $$\begin{align\*}
 & \dot F = \int\_\Omega\left\\{\frac{2}{n + 1}A|\tau|^{n + 1} - \tau : \dot\varepsilon + p\nabla\cdot u + \rho g\cdot u\right\\}\mathrm dx  \\\\
@@ -412,7 +425,7 @@ $$\begin{align\*}
 
 -v-
 
-### The dual form of Stokes
+### The dual form of nonlinear Stokes
 
 * Strain rate${}^{4/3}$ becomes stress${}^4$ -- no more cusp!
 * Add terms to get composite flow / sliding laws.
@@ -446,7 +459,6 @@ From Shapero and de Diego (2025), *Numerical simulation of glacier terminus evol
 
 ### Stokes flow
 
-* 2D models are nice but sometimes you want "ground truth".
 * The orthodox approach: a moving mesh.
 * An alternative: a moving *coordinate system*.
 
@@ -477,11 +489,26 @@ $$\nabla\_x\phi = \nabla\_\xi\phi\cdot J^{-1}$$
 
 -v-
 
-### Terrain-following coordinates
+### The problem
 
-* **The problem**: if we discretize $h$ with finite elements, then $J$ jumps across facets.
+* Discretize $h$ $\Rightarrow$ $J$ jumps across facets...
 * But it lives under a derivative:
 $$\nabla\_x u\_x = \nabla\_\xi(Ju\_\xi)J^{-1}!$$
+
+-v-
+
+### The solution
+
+Use discontinuous basis functions!
+$$\begin{align\*}
+& L(u, p) = \ldots \\\\
+& \quad - \sum_\gamma\int\_\gamma \text{avg}(\tau - pI)\_\perp \cdot \text{jump}(u\_\parallel)\mathrm d\gamma \\\\
+& \qquad\quad + \sum\_\gamma\int\_\gamma \frac{\alpha\mu}{2\ell}|\text{jump}(u)|^2\mathrm d\gamma
+\end{align\*}$$
+
+-v-
+
+show a movie
 
 
 

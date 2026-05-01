@@ -99,11 +99,6 @@ mesh = firedrake.Mesh("chamber.msh")
 
 # %%
 import matplotlib.pyplot as plt
-fig, ax = plt.subplots()
-ax.set_aspect("equal")
-firedrake.triplot(mesh, axes=ax)
-ax.legend(loc="upper right");
-
 # %% [markdown]
 # ### Initial velocity
 #
@@ -164,16 +159,6 @@ firedrake.solve(F == 0, z, bcs)
 # In other words, the mathematical model remains well-posed even in regimes where it is not applicable.
 # Here we're only using the result to initialize a simulation using the "right" model.
 # But it's a mistake -- and one I've made -- to lull yourself into a false sense of correctness merely because the model gave you an answer.
-
-# %%
-fig, ax = plt.subplots()
-ax.set_aspect("equal")
-ax.set_axis_off()
-colors = firedrake.streamplot(
-    z.subfunctions[0], resolution=1/16, seed=1729, cmap="Blues", axes=ax
-)
-fig.colorbar(colors, orientation="horizontal")
-plt.show()
 
 # %% [markdown]
 # ### Solution method
@@ -267,7 +252,6 @@ dt = firedrake.Constant(0.5 * cfl_time)
 # %%
 params = {
     "solver_parameters": {
-        "snes_monitor": ":navier-stokes-output.log",
         "snes_atol": 1e-12,
         "ksp_atol": 1e-12,
         "snes_type": "newtonls",
