@@ -22,8 +22,6 @@ Daniel Shapero, shapero@uw.edu
 
 ### Introduction
 
-I solve differential equations for money
-
 -v-
 
 ### Why study glaciers
@@ -491,12 +489,13 @@ $$\nabla\_x u\_x = \nabla\_\xi(Ju\_\xi)J^{-1}!$$
 
 -v-
 
-### Conclusion
-
-I will solve differential equations for money
+I will solve PDEs for money: **shapero@uw.edu**
 
 <center>
 
-**shapero@uw.edu**
+<video width="640" height="480" controls>
+  <source src="karman-vortices.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 </center>
