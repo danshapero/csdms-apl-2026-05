@@ -265,7 +265,13 @@ $$\begin{align\*}
 
 -v-
 
-show a simulation of a synthetic case with SIA
+<center><img src="kessler-2008.png" width=90%></center>
+
+<small>
+
+From Kessler et al. (2008), *Fjord insertion into continental margins driven by topographic steering of ice*
+
+</small>
 
 -v-
 
@@ -436,6 +442,18 @@ $$\begin{align\*}
 ### Larsen C simulation
 
 <center><iframe width="600" height="350" data-src="https://www.youtube.com/embed/qq6lw7D9NR0?rel=0" frameborder="0" allowfullscreen></iframe></center>
+
+<small>
+
+From Shapero and de Diego (2025), *Numerical simulation of glacier terminus evolution using the dual action principle for momentum balance*
+
+</small>
+
+-v-
+
+### Kangerlussuaq simulation
+
+<center><iframe width="600" height="350" src="https://www.youtube.com/embed/01Kvp7Hoego?rel=0" frameborder="0" allowfullscreen></iframe></center>
 
 <small>
 
