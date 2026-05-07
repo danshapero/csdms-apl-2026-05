@@ -132,6 +132,14 @@ $$\dot F(u, p) = \int\_\Omega\left(\mu|\dot\varepsilon(u)|^2 - p\nabla\cdot u - 
 
 -v-
 
+<center>
+
+demonstration
+
+</center>
+
+-v-
+
 ### The Glen flow law
 
 * **Glacier flow is *shear-thinning*.**
