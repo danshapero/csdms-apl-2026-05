@@ -10,12 +10,17 @@ Daniel Shapero, shapero@uw.edu
 
 -v-
 
+### Take-away message
+
+There are new tools in finite element analysis that radically expand what kind of simulations a single person can do.
+
+-v-
+
 ### Overview
 
 * Introduction and how I got here
 * Glacier flow, in broad strokes
 * Terminus advance and retreat with duality
-* Stokes flow in terrain-following coordinates
 
 
 ---
@@ -42,8 +47,7 @@ Daniel Shapero, shapero@uw.edu
 
 ### Some history
 
-* I started an applied math PhD at UW in 2010.
-* My degree prepared me to solve PDEs real fast.
+* An applied math PhD teaches you to solve PDEs fast.
 * **Physical scientists are not limited by speed first.**
 
 -v-
@@ -95,7 +99,7 @@ Specify the PDE using a *domain-specific language*.
 
 * Glacier ice is nearly incompressible:
 $$\nabla\cdot u = 0.$$
-* We can integrate this in $z$ to get an evolution equation for the ice thickness $h$:
+* Integrate in $z$ $\Rightarrow$ an evolution of ice thickness $h$:
 $$\frac{\partial h}{\partial t} + \underbrace{\nabla\cdot h\bar u}\_{\text{flux}} = \underbrace{\dot a}\_{\text{accum}} - \underbrace{\dot m}\_{\text{melt}}$$
 
 -v-
@@ -111,19 +115,26 @@ $$\begin{align\*}
 
 -v-
 
-### The Glen flow law
+### Constitutive laws
 
 * For fluids, we care about the strain rate:
 $$\dot\varepsilon = \frac{1}{2}\left(\nabla u + \nabla u^\*\right)$$
 * For a Newtonian fluid, stress $\sim$ strain rate:
 $$\underbrace{\tau}\_{\text{stress}} = 2\times\underbrace{\mu}\_{\text{viscosity}}\times\underbrace{\dot\varepsilon}\_{\text{strain rate}}$$
-**Glaciers are not Newtonian**.
+
+-v-
+
+### Minimization principle
+
+Stokes flow $\Leftrightarrow$ find a critical point of:
+
+$$\dot F(u, p) = \int\_\Omega\left(\mu|\dot\varepsilon(u)|^2 - p\nabla\cdot u - \rho g\cdot u\right)\mathrm dx$$
 
 -v-
 
 ### The Glen flow law
 
-* Glacier flow is *shear-thinning*.
+* **Glacier flow is *shear-thinning*.**
 * Laboratory experiments in the 50s showed that
 $$\dot\varepsilon = A|\tau|^{n - 1}\tau$$
 where $n$ is somewhere between 3 and 4.
@@ -195,27 +206,21 @@ From Stokes and Clark (2003), *The Dubawnt Lake palaeo-ice stream: evidence for 
 
 ### Summary
 
-* Momentum balance is:
+Momentum balance is:
   - conservation law
   - flow law${}^{-1}$ (stress $\sim$ strain rate${}^{1/n}$)
   - sliding law${}^{-1}$ (drag $\sim$ speed${}^{1/m}$)
   - fixed normal velocity at the base
   - no stress at the surface
-* Throw it all at a finite element solver and pray, right?
 
 -v-
 
 ### Minimization principle
 
-* The Stokes problem can also be derived through minimizing the *free energy dissipation rate*.
-* Minimization principles are *awesome* for numerics.
-
--v-
-
-### Minimization principle
+Nonlinear Stokes flow + sliding $\Leftrightarrow$ find a critical point of
 
 $$\begin{align\*}
-\dot F(u, p) & = \int\_\Omega\left(\frac{2n}{n + 1}A^{-\frac{1}{n}}|\dot\varepsilon|^{\frac{1}{n} + 1} - p\nabla\cdot u - \rho g\cdot u\right)\mathrm dx \\\\
+\dot F(u, p) & = \int\_\Omega\left(\frac{2n}{n + 1}A^{-\frac{1}{n}}|\dot\varepsilon(u)|^{\frac{1}{n} + 1} - p\nabla\cdot u - \rho g\cdot u\right)\mathrm dx \\\\
 & \qquad\qquad + \int\_\Gamma\frac{m}{m + 1}K^{-\frac{1}{m}}|u\_\perp|^{\frac{1}{m} + 1}\mathrm d\gamma
 \end{align\*}$$
 
@@ -384,34 +389,13 @@ $$\dot F = \int_\Omega\left(\ldots h\cdot |\dot\varepsilon|^{4/3}\ldots\right)\m
 
 -v-
 
-### Convex duality
-
-* Example: linear elasticity.
-  - Find a displacement that minimizes energy.
-  - Find a stress in force balance.
-* Example: Stokes flow
-  - Find a velocity that minimizes free energy rate.
-  - Find a stress in force balance.
-
--v-
-
-### Example: linear elasticity
+### Example: Stokes flow
 
 The primal form:
-$$E(u) = \int\_\Omega\left(\frac{1}{2}\mathscr C \varepsilon(u): \varepsilon(u) - f\cdot u\right)\mathrm dx$$
+$$\dot F(u, p) = \int\_\Omega\left(\mu|\dot\varepsilon(u)|^2 - p\nabla\cdot u - f\cdot u\right)\mathrm dx$$
 
 The dual form:
-$$E(u, \sigma) = \int\_\Omega\left(\frac{1}{2}\mathscr C^{-1}\sigma : \sigma + u\cdot(\nabla\sigma + f)\right)\mathrm dx$$
-
--v-
-
-### Example: linear Stokes flow
-
-The primal form:
-$$L(u, p) = \int\_\Omega\left(\mu\dot\varepsilon(u):\dot\varepsilon(u) - p\nabla\cdot u - f\cdot u\right)\mathrm dx$$
-
-The dual form:
-$$L(u, p, \tau) = \int\_\Omega\left(\frac{1}{4\mu}|\tau|^2 - \tau:\dot\varepsilon(u) + p\nabla\cdot u + f\cdot u\right)\mathrm dx$$
+$$\dot F(u, p, \tau) = \int\_\Omega\left(\frac{1}{4\mu}|\tau|^2 - \tau:\dot\varepsilon(u) + p\nabla\cdot u + f\cdot u\right)\mathrm dx$$
 
 -v-
 
@@ -425,7 +409,7 @@ $$L(u, p, \tau) = \int\_\Omega\left(\frac{1}{4\mu}|\tau|^2 - \tau:\dot\varepsilo
 ### The dual form of nonlinear Stokes
 
 $$\begin{align\*}
-& \dot F = \int\_\Omega\left\\{\frac{2}{n + 1}A|\tau|^{n + 1} - \tau : \dot\varepsilon + p\nabla\cdot u + \rho g\cdot u\right\\}\mathrm dx  \\\\
+& \dot F = \int\_\Omega\left\\{\frac{2}{n + 1}A|\tau|^{n + 1} - \tau : \dot\varepsilon(u) + p\nabla\cdot u + \rho g\cdot u\right\\}\mathrm dx  \\\\
 & \qquad\qquad + \int\_\Gamma\left\\{\frac{1}{m + 1}K|\tau_\perp|^{m + 1} + \tau\_\perp\cdot u\_\perp\right\\}\mathrm d\gamma
 \end{align\*}$$
 
@@ -469,66 +453,6 @@ From Shapero and de Diego (2025), *Numerical simulation of glacier terminus evol
 
 <small>By my student Jon Maurer</small>
 
----
-
-### Stokes flow in terrain-following coordinates
-
--v-
-
-### Stokes flow
-
-* The orthodox approach: a moving mesh.
-* An alternative: a moving *coordinate system*.
-
--v-
-
-### Terrain-following coordinates
-
-* Use a new coordinate $\zeta$ such that
-$$z = b(x, y) + h(x, y, t)\cdot\zeta.$$
-* The vertical domain is now just the interval $[0, 1]$.
-* Integrals pick up a factor of $h$:
-$$\mathrm dz \mapsto h\\,\mathrm d\zeta$$
-
--v-
-
-<center><img src="greve-tfc-figure.png"></center>
-
-From ch. 5 of Greve and Blatter (2009), *Dynamics of ice sheets and glaciers*.
-
--v-
-
-### Terrain-following coordinates
-
-* Taking a derivative w.r.t. $x$ with $z$ fixed is not the same as with $\zeta$ fixed!
-* Let $J = \mathrm dx/\mathrm d\xi$; a few things change:
-$$u\_x = J\cdot u\_\xi$$
-$$\nabla\_x\phi = \nabla\_\xi\phi\cdot J^{-1}$$
-
--v-
-
-### The problem
-
-* Discretize $h$ $\Rightarrow$ $J$ jumps across facets...
-* But it lives under a derivative:
-$$\nabla\_x u\_x = \nabla\_\xi(Ju\_\xi)J^{-1}!$$
-
--v-
-
-### The solution
-
-Use discontinuous basis functions!
-$$\begin{align\*}
-& L(u, p) = \ldots \\\\
-& \quad - \sum_\gamma\int\_\gamma \text{avg}(\tau - pI)\_\perp \cdot \text{jump}(u\_\parallel)\mathrm d\gamma \\\\
-& \qquad\quad + \sum\_\gamma\int\_\gamma \frac{\alpha\mu}{2\ell}|\text{jump}(u)|^2\mathrm d\gamma
-\end{align\*}$$
-
--v-
-
-show a movie
-
-
 
 ---
 
@@ -536,13 +460,23 @@ show a movie
 
 -v-
 
+### Take-away messages
+
+* Minimization principles are awesome for numerics.
+* Many ways to express the same physics problem.
+* New tools in finite element analysis raise the bar.
+* **Huge progress in CFD in the past 10 years.**
+
+-v-
+
 ### Future work
 
-* **Firn**: densification of snow into ice
-* **Heat flow**: phase change
-* **Fabric**: crystal anisotropy and mechanics
-* **Damage mechanics**: try new calving laws
-* **Inverse problems**: estimating thickness, friction, viscosity from remote sensing data
+* **Firn** densification
+* **Heat flow** and phase change
+* **Fabric** anisotropy and mechanics
+* **Damage mechanics** and new calving laws
+* **Contact problems** at grounding lines
+* **Inverse problems** to estimate thickness, friction, viscosity from remote sensing data
 
 -v-
 
