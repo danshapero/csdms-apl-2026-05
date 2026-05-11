@@ -255,26 +255,45 @@ $\Rightarrow$ we can eliminate the pressure.
 
 -v-
 
-### The shallow ice approximation
+<center>
+<img src="kirchner-2011.png" width=70%>
+</center>
 
-* Assumption: vertical shear $\dot\varepsilon\_{xz}$, $\dot\varepsilon\_{yz}$ dominates.
-* Consequence:
-$$\begin{align\*}
-\text{driving stress}: \quad \tau\_d & = -\rho gh\nabla s \\\\
-\text{velocity}: \quad \bar u & = \frac{2hA}{n + 2}|\tau\_d|^{n - 1}\tau\_d
-\end{align\*}$$
+<small>
+
+From Kirchner et al. (2011), *Capabilities and limitations of numerical ice sheet models*
+</small>
+
 
 -v-
 
 ### The shallow ice approximation
 
-* The good:
-  - Simple to code: everyone does it!
-  - **The model still works fine even when $h = 0$.**
-* The bad:
-  - Can't handle floating ice.
-  - Assumes $\bar u \sim -\nabla s$ but DEMs are noisy.
-  - Allstadt (2015): SIA can reproduce only 5\% of the speed of Emmons Glacier.
+* Assumption: vertical shear $\dot\varepsilon\_{xz}$, $\dot\varepsilon\_{yz}$ dominates.
+* The good: simple to code, **works even when $h = 0$**.
+* The bad: no floating, $\bar u \sim -\nabla s$ but DEMs are noisy.
+
+-v-
+
+<div class="multicolumn">
+
+<div>
+
+<center>
+<img src="allstadt-2015.png" width=100%>
+</center>
+
+</div>
+
+<div>
+
+Allstadt et al. (2015), *Observations of seasonal and diurnal glacier velocities at Mount Rainier*.
+
+**SIA can reproduce only 5\% of the speed of Emmons Glacier.**
+
+</div>
+
+</div>
 
 -v-
 
@@ -310,7 +329,13 @@ $$\underbrace{\nabla\cdot hM}\_{\text{viscosity}} + \underbrace{\tau\_b}\_{\text
 
 -v-
 
-show some result obtained with SSA
+<center><img src="nixon-hill-2024.png"></center>
+
+<small>
+
+From Nixon-Hill et al. (2024), *Consistent point data assimilation in Firedrake and Icepack*
+
+</small>
 
 -v-
 
