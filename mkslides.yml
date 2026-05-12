@@ -1,5 +1,5 @@
 index:
-  title: Data assimilation with dual SSA
+  title: Glacier flow modeling
 slides:
   separator_vertical: ^\s*-v-\s*$
   theme: slides.css

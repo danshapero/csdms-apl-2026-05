@@ -1,5 +1,5 @@
 ---
-title: Glacier flow modeling
+title: APL seminar 2026/05/12
 ---
 
 ## Modeling glacier flow
@@ -412,6 +412,10 @@ $$\dot F = \int_\Omega\left(\ldots h\cdot |\dot\varepsilon|^{4/3}\ldots\right)\m
 
 -v-
 
+<img src="shapero-2025-fig1.png">
+
+-v-
+
 ### What is to be done?
 
 <center>
@@ -453,6 +457,10 @@ $$\begin{align\*}
 * Strain rate${}^{4/3}$ becomes stress${}^4$ -- no more cusp!
 * Add terms to get composite flow / sliding laws.
 * **The dual form of SSA is solvable at $h = 0$.**
+
+-v-
+
+<img src="shapero-2025-fig1.png">
 
 -v-
 
@@ -541,8 +549,7 @@ Photos by Elizabeth King
 
 * Minimization principles are awesome for numerics.
 * Many ways to express the same physics problem.
-* New tools in finite element analysis raise the bar.
-* **Huge progress in CFD in the past 10 years.**
+* **New tools in finite element analysis raise the bar.**
 
 -v-
 
