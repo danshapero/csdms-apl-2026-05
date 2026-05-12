@@ -489,6 +489,50 @@ From Shapero and de Diego (2025), *Numerical simulation of glacier terminus evol
 
 ---
 
+### Emmons field work
+
+<small>
+
+Thanks to: Annie Spence, Elizabeth King, and Griffin Marshall; Claire Todd, CSUSB; Scott Beason, NPS; Earthscope
+
+Photos by Elizabeth King
+
+</small>
+
+-v-
+
+<center>
+<img src="IMG_20260504_152734270_HDR.jpg" width="80%">
+</center>
+
+-v-
+
+<center><img src="DSC04747.JPG" width="80%"></center>
+
+-v-
+
+<center><img src="IMG_20260509_110519968.jpg"></center>
+
+-v-
+
+<center><img src="DSC04804.JPG" width="80%"></center>
+
+-v-
+
+<center><img src="DSC04807.JPG" width="80%"></center>
+
+-v-
+
+<center><img src="DSC04850.JPG" width="80%"></center>
+
+-v-
+
+<center>
+<img src="emmons terminus pano.png">
+</center>
+
+---
+
 ### Conclusion
 
 -v-
