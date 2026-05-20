@@ -12,6 +12,9 @@ Daniel Shapero, shapero@uw.edu
 
 ### Overview
 
+* Glacier physics
+* Minimization principles
+* Field pics
 
 
 ---
@@ -463,11 +466,23 @@ Photos by Elizabeth King
 
 -v-
 
+<center><img src="roering-2008.png" width="45%"></center>
+
+<small>
+
+From Roering (2008), *How well can hillslope evolution models "explain" topography?*
+
+</small>
+
+-v-
+
 ### Hillslope diffusion
 
-$z$ = landscape height.
+$z$ = landscape height, $q$ = mass flux.
 
-$$-\nabla\cdot\left(\frac{k\nabla z}{1 - \frac{|\nabla z|^2}{S\_c^2}}\right) = U$$
+$$\nabla\cdot q = U;$$
+
+$$q = -\frac{k\nabla z}{1 - S\_c^{-2}|\nabla z|^2}$$
 
 -v-
 
@@ -475,12 +490,25 @@ $$-\nabla\cdot\left(\frac{k\nabla z}{1 - \frac{|\nabla z|^2}{S\_c^2}}\right) = U
 
 $$\dot F(z) = -\int\_\Omega\left\\{\frac{kS\_c^2}{2}\ln\left(1 - \frac{|\nabla z|^2}{S\_c^2}\right) + Uz\right\\}\mathrm dx$$
 
-I haven't seen this^ published anywhere
+I don't think this has been published before?
+
+-v-
+
+<center><img src="hillslope-primal.png" width="70%"></center>
 
 -v-
 
 ### Dual minimization principle
 
-$$\dot F(z, q) = \int\_\Omega\left\\{kS\_c^2\ln\left(\frac{2}{\sqrt{\frac{4|q|^2}{k^2S\_c^2} + 1} + 1}\right) + (U - \nabla\cdot q)z\right\\}\mathrm dx$$
+$$\begin{align\*}
+\dot F(z, q) & = \int\_\Omega\Bigg\\{kS\_c^2\left(\sqrt{\frac{4|q|^2}{k^2S\_c^2} + 1} - 1 -\ln\left(\frac{2}{\sqrt{\frac{4|q|^2}{k^2S\_c^2} + 1} + 1}\right)\right) \\\\
+& \qquad\qquad\qquad\qquad + (U - \nabla\cdot q)z\Bigg\\}\mathrm dx
+\end{align\*}$$
 
 And I sure as hell haven't seen this^ anywhere either
+
+-v-
+
+<center><img src="hillslope-primal.png" width="45%"> <img src="hillslope-dual.png" width="45%"></center>
+
+From **Your name here** and Shapero (2027), *Minimization principles for nonlinear hillslope transport*
