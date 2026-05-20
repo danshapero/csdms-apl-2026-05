@@ -397,6 +397,14 @@ From Shapero and de Diego (2025), *Numerical simulation of glacier terminus evol
 
 ### Emmons Glacier
 
+<center><img src="emmons-smb.png" width="65%"></center>
+
+Thin debris *enhances* melt, thick debris *inhibits*!
+
+-v-
+
+### Emmons Glacier
+
 <center><img src="emmons-thickness-velocity.png" width="80%"></center>
 
 <small>By my student Jon Maurer</small>
